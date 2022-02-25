@@ -1,6 +1,4 @@
-# For my future self: Yes, I am aware that there are easier ways to convert to hexadecimal. I only learned about them after I had started the project, and wanted to finish it as it was as a learning exercise.
 
-# The code below this line is working
 
 base = 16                       # Establishes hexadecimal as the base
 power_dict = {
