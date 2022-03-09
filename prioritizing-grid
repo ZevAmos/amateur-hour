@@ -1,0 +1,57 @@
+'''takes user inputed items and allows them to choose between pairs of items in order to rank their order of priority. Made to be an offline
+version of the prioritization grid found in "What Color is Your Parachute", available for free online at www.beverlyryle.com/prioritizing-grid'''
+
+items = []
+
+count = int(input("how many items do you want to prioritize? "))
+
+for i in range(count):
+    items.append(input("input item name: "))
+
+items = [[count - 1, items[j]] for j in range(count)]
+# point value assigned to each item equal to 1 less than number of items (it's a list so one index can be 0)
+sets = count - 1
+'''
+this is because the number of sequential pairs in a list of consecutive integers is going to be 1 less than the number of integers in that list. 
+So numbers 1-10 has 10 integers, and 9 pairs. The variable "pairs" is defined later because it updates per iteration. 
+'''
+
+a, b, c = 0, 0, -1
+'''
+"a" and "b" are coordinate values representing the index of items to be compared. "c" is a variable that moves "b"
+over one index per set iteration to achieve a "diagonal" series of comparisons.
+'''
+
+for l in range(sets):
+
+    a, b, c = 0, b - c, -1
+    '''
+    resets coordinates. "a" is always the first item. "b" is always the item one index higher than the previous set's "b"
+    
+    '''
+    pairs = sets - l
+    # for each set of pairs completed, the number of pairs in the next iteration is 1 less (l += 1), so with 10 items sets of pairs would be: 9, 8, 7 ...
+    for m in range(pairs):
+        if input(items[a][1] + '(a) ' + ' or ' + items[b][1] + '(b) ' + '? ') == 'a':
+            items[a][0] -= 1
+
+        else:
+            items[b][0] -= 1
+
+        '''
+        subtracts pts from the chosen item, so it will move to a lower index when sorted.
+        in event of a "circular preference" each item is preferable to each other item
+        so values are identical and the order remains the same.
+        '''
+
+        a, b, c = a + 1, b + 1, c + 1
+        # all pair coordinate values increase by 1 to determine the next match up.
+
+items.sort()
+
+file = open("Priority List", 'w')
+
+for m in items:
+    file.write(str(m[0]) + ' ' + m[1] + '\n')
+
+# writes priority list to a txt file so insight can be gleaned across time
